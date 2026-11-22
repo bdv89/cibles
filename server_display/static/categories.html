@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catégories — Inventaire Cibles</title>
+    <link rel="icon" href="favicon.svg?v=4" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=37" />
+    <link rel="stylesheet" href="cibles.css?v=12" />
+    <script src="theme.js?v=2"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="./" class="logo-link">
+        <span class="site-logo-text">Inventaire cibles</span>
+      </a>
+      <nav class="site-nav">
+        <a href="./">Inventaire</a>
+        <a href="categories.html" class="active">Catégories</a>
+        <a href="documents.html">Documents</a>
+        <a href="metrics.html">Métriques</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Basculer clair/sombre">🌙</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Stock par catégorie</div>
+          <h1>Catégories (Matériau + Forme)</h1>
+          <p>
+            Nombre de cibles non supprimées par catégorie. Fixez un seuil minimal :
+            les catégories sous le seuil sont signalées en rouge.
+          </p>
+        </div>
+        <div class="stats-row">
+          <div class="stats" id="stats-cats">0 catégorie</div>
+          <div class="stats" id="stats-below">0 sous seuil</div>
+        </div>
+      </section>
+
+      <section class="controls">
+        <label for="cat-search" class="search-label">Rechercher</label>
+        <input
+          id="cat-search"
+          type="search"
+          placeholder="matériau, forme…"
+          autocomplete="off"
+        />
+        <div class="meta" id="cat-meta"></div>
+      </section>
+
+      <section class="table-wrap">
+        <table class="cat-table">
+          <thead>
+            <tr>
+              <th>Matériau</th>
+              <th>Forme</th>
+              <th>Dimension</th>
+              <th>Stock</th>
+              <th>Seuil min.</th>
+            </tr>
+          </thead>
+          <tbody id="cat-tbody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <span>Inventaire Cibles</span>
+      </div>
+    </footer>
+
+    <script src="categories-app.js?v=5"></script>
+  </body>
+</html>

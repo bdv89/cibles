@@ -1,0 +1,365 @@
+/* Cibles inventory — wear-state badges, state button, category view. */
+
+.usure-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.usure-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.82em;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+}
+.usure-badge.u-neuve { background: var(--accent, #879A39); }
+.usure-badge.u-utilisee { background: #C08A2D; }
+.usure-badge.u-finie { background: var(--muted, #6F6E69); }
+.usure-badge.u-other { background: var(--danger, #cf2e2e); }
+
+/* When editing is enabled the badge is itself the clickable button. */
+button.usure-badge {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82em;
+  font-weight: 600;
+}
+button.usure-badge:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.12);
+}
+button.usure-badge:active {
+  filter: brightness(0.94);
+}
+
+.cell-remarque {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cell-remarque.editable {
+  cursor: text;
+  min-width: 60px;
+}
+.cell-remarque.editable:hover {
+  background: var(--bg-2, #F2F0E5);
+}
+.cell-remarque.empty-hint {
+  color: var(--muted, #6F6E69);
+}
+textarea.remarque-edit {
+  width: 100%;
+  min-width: 240px;
+  min-height: 46px;
+  resize: vertical;
+  font: inherit;
+  box-sizing: border-box;
+  padding: 4px 6px;
+}
+
+/* Reference field: input + "next number" helper button */
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.input-row input {
+  flex: 1 1 auto;
+}
+.btn-nextref {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  border: 1px solid var(--blue, #4385BE);
+  background: #fff;
+  color: var(--blue, #4385BE);
+  border-radius: 6px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+.btn-nextref:hover {
+  background: var(--blue, #4385BE);
+  color: #fff;
+}
+:root[data-theme="dark"] .btn-nextref {
+  background: transparent;
+}
+
+/* Category / stock view */
+.cat-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cat-table th,
+.cat-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bg-2, #F2F0E5);
+  text-align: left;
+}
+.cat-table tr.below td {
+  background: #fbeaea;
+}
+.cat-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.cat-badge-low {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--danger, #cf2e2e);
+  color: #fff;
+  font-size: 0.78em;
+  font-weight: 600;
+}
+.cat-threshold-input {
+  width: 70px;
+  padding: 4px 6px;
+}
+
+/* Document links (SDS / COA) in the inventory table */
+.docs-cell {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  /* Surtout PAS de flex-wrap : la colonne a une largeur fixe, un retour a la ligne
+     ferait grandir la hauteur de TOUTES les lignes du tableau. */
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.doc-group {
+  display: inline-flex;
+  gap: 4px;
+}
+/* Scoped under #table a to beat `#table a { color: var(--blue) }` in styles.css. */
+#table a.doc-link,
+#table a.doc-link:link,
+#table a.doc-link:visited,
+#table a.doc-link:hover,
+#table a.doc-link:active {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: 0.78em;
+  font-weight: 600;
+  text-decoration: none;
+  color: #ffffff;            /* white on the colored badge, all link states */
+  white-space: nowrap;
+}
+.doc-link.doc-sds { background: var(--blue, #4385BE); }
+.doc-link.doc-coa { background: var(--accent, #879A39); }
+.doc-link.doc-bc  { background: var(--accent-2, #32373c); }
+/* auto-linked (not yet human-confirmed): keep full white text, mark with a dotted underline */
+.doc-link.doc-auto {
+  text-decoration: underline dotted rgba(255, 255, 255, 0.8);
+  text-underline-offset: 2px;
+}
+.doc-link:hover { filter: brightness(1.08); }
+.btn-doc-add {
+  border: 1px dashed var(--line, #D1CFC6);
+  background: transparent;
+  color: var(--muted, #6F6E69);
+  border-radius: 6px;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+.btn-doc-add:hover { border-color: var(--accent, #879A39); color: var(--ink, #000); }
+
+/* All-columns toggle bar: wrap onto multiple lines */
+#toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Document modal section headers */
+.docs-h {
+  margin: 14px 0 6px;
+  font-size: 0.95rem;
+}
+.docs-note {
+  font-weight: 400;
+  font-size: 0.8em;
+  color: var(--muted, #6F6E69);
+}
+
+/* COA management modal */
+.coa-add-row {
+  display: flex;
+  /* Trois controles (champ + Lier + Ajouter) : sur ecran etroit ils passent a la ligne
+     au lieu d'ecraser le champ de recherche. */
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.coa-add-row input[type="text"],
+.coa-add-row input:not([type]) {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+/* "Ajouter" est une action distincte de "Lier" : style secondaire pour que les deux
+   ne soient pas interchangeables a l'oeil.
+   PAS de transition ici : piege CSS n2 (une transition sur une propriete alimentee
+   par une variable de theme reste figee sur l'ancien theme apres bascule). */
+.btn-save.coa-upload {
+  background: transparent;
+  color: var(--ink, #000);
+  border: 1px solid var(--accent, #879A39);
+}
+.btn-save.coa-upload:hover:not(:disabled) {
+  background: var(--bg-2, #F2F0E5);
+}
+.btn-save.coa-upload:disabled,
+.coa-add-row .btn-save:disabled,
+.coa-add-row input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.docs-hint {
+  margin: 4px 0 0;
+  font-size: 0.75em;
+  color: var(--muted, #6F6E69);
+}
+.coa-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--bg-2, #F2F0E5);
+}
+.coa-item a {
+  flex: 1;
+  color: var(--blue, #4385BE);
+  word-break: break-all;
+}
+.coa-src {
+  font-size: 0.75em;
+  color: var(--muted, #6F6E69);
+}
+.coa-remove {
+  border: none;
+  background: transparent;
+  color: var(--danger, #cf2e2e);
+  cursor: pointer;
+  font-size: 1em;
+}
+.coa-empty {
+  color: var(--muted, #6F6E69);
+  font-style: italic;
+}
+
+/* Clickable "sous seuil" toggle in the category stats row */
+#stats-below.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+#stats-below.active {
+  background: var(--danger, #cf2e2e);
+  color: #fff;
+}
+
+/* Pagination controls under the main table */
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 4px;
+  flex-wrap: wrap;
+}
+.pager-btn {
+  border: 1px solid var(--blue, #4385BE);
+  background: #fff;
+  color: var(--blue, #4385BE);
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+.pager-btn:hover:not(:disabled) {
+  background: var(--blue, #4385BE);
+  color: #fff;
+}
+.pager-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.pager-info {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted, #6F6E69);
+}
+.pager-size {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 0.85em;
+  color: var(--muted, #6F6E69);
+}
+:root[data-theme="dark"] .pager-btn {
+  background: transparent;
+}
+
+/* ==========================================================================
+   PAGE DOCUMENTS (documents.html)
+   Six sections empilees, defilement normal de page : ne PAS borner la hauteur
+   ici (contrairement a index.html ou seule la table defile).
+   ========================================================================== */
+.doc-section {
+  margin-bottom: 26px;
+}
+/* Le titre et la note sont HORS du .table-wrap : sinon ils defilent avec les
+   122 lignes et on perd de vue la section qu'on est en train de lire. */
+.doc-section h2 {
+  margin: 20px 0 4px;
+  font-size: 1.05rem;
+}
+.doc-section .table-wrap {
+  margin-top: 8px;
+  /* styles.css impose min-height: 240px (utile a l'inventaire, absurde ici :
+     une section vide occupait un ecran entier pour dire "Rien a signaler"). */
+  min-height: 0;
+  max-height: 55vh;
+}
+/* styles.css ne cible que `#search` (page inventaire) : sans ca le champ des
+   pages secondaires reste a sa largeur intrinseque, soit ~170px. */
+.controls input[type="search"] {
+  flex: 1;
+  border: 1px solid var(--line, #D1CFC6);
+  border-radius: 9999px;
+  padding: 12px 20px;
+  font-size: 15px;
+  background: var(--bg-2, #F2F0E5);
+  color: var(--ink, #000);
+  outline: none;
+  min-width: 0;
+}
+.doc-section-note {
+  margin: 0 0 10px;
+  font-size: 0.85em;
+  color: var(--muted, #6F6E69);
+  max-width: 68ch;
+}
+/* Les chemins sont longs et de longueur tres variable : on les laisse se couper
+   plutot que d'elargir la colonne pour toutes les lignes (piege CSS n3). */
+.doc-path {
+  font-size: 0.82em;
+  color: var(--muted, #6F6E69);
+  word-break: break-all;
+}
+.btn-unlink {
+  padding: 3px 10px;
+  font-size: 0.82em;
+  white-space: nowrap;
+}
+#doc-status {
+  margin: 0 0 16px;
+}

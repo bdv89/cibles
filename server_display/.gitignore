@@ -1,0 +1,18 @@
+# Secrets / site-specific wrappers (see *.example)
+send_alert.bat
+.env
+scripts/mirror_documents.cmd
+
+# Data, never published
+*.sqlite
+*.sqlite-*
+manual_*.csv
+SDS_cibles/
+COA_cibles/
+BC_cibles/
+backups/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/

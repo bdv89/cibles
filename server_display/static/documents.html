@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documents — Inventaire Cibles</title>
+    <link rel="icon" href="favicon.svg?v=4" type="image/svg+xml" />
+    <!-- Pas de class="app-screen" sur <body> : cette page defile normalement,
+         comme categories.html et metrics.html. Le layout 5 bandes est reserve a index.html. -->
+    <link rel="stylesheet" href="styles.css?v=37" />
+    <link rel="stylesheet" href="cibles.css?v=12" />
+    <script src="theme.js?v=2"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="./" class="logo-link">
+        <span class="site-logo-text">Inventaire cibles</span>
+      </a>
+      <nav class="site-nav">
+        <a href="./">Inventaire</a>
+        <a href="categories.html">Catégories</a>
+        <a href="documents.html" class="active" aria-current="page">Documents</a>
+        <a href="metrics.html">Métriques</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Basculer clair/sombre">🌙</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Couverture documentaire</div>
+          <h1>Documents (SDS / COA / bons de commande)</h1>
+          <p>
+            Ce qui manque, ce qui traîne et ce qui est cassé. Les documents s'ajoutent
+            depuis l'inventaire&nbsp;: ouvrez une cible et cliquez sur «&nbsp;＋&nbsp;».
+            Aucun fichier n'est supprimé depuis cette page.
+          </p>
+        </div>
+        <div class="stats-row" id="doc-stats"></div>
+      </section>
+
+      <section class="controls">
+        <label for="doc-search" class="search-label">Rechercher</label>
+        <input
+          id="doc-search"
+          type="search"
+          placeholder="matériau, référence, nom de fichier…"
+          autocomplete="off"
+        />
+        <div class="meta" id="doc-meta"></div>
+      </section>
+
+      <div id="doc-status" class="edit-status hidden" role="status" aria-live="polite"></div>
+
+      <section class="doc-section" id="sec-morts">
+        <h2>Liens morts</h2>
+        <p class="doc-section-note">
+          Le lien existe en base mais le fichier a disparu du serveur. «&nbsp;Délier&nbsp;» nettoie
+          l'entrée&nbsp;; les liens automatiques reviendront au prochain passage du script.
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Clé</th>
+                <th scope="col">Fichier attendu</th>
+                <th scope="col">Source</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tb-morts"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="sec-doublons">
+        <h2>Doublons</h2>
+        <p class="doc-section-note">
+          Le même fichier est lié plusieurs fois à la même clé — l'inventaire affiche
+          alors «&nbsp;×2&nbsp;» sur un seul document.
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Clé</th>
+                <th scope="col">Fichier</th>
+                <th scope="col">Occurrences</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tb-doublons"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="sec-orphelins">
+        <h2>Fichiers orphelins</h2>
+        <p class="doc-section-note">
+          Présents sur le serveur, rattachés à aucune cible. À lier depuis la ligne
+          concernée dans l'inventaire.
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Fichier</th>
+                <th scope="col">Emplacement</th>
+              </tr>
+            </thead>
+            <tbody id="tb-orphelins"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="sec-sans_sds">
+        <h2>Matériaux sans SDS</h2>
+        <p class="doc-section-note">
+          Une SDS est partagée par toutes les cibles d'un même matériau&nbsp;: un dépôt couvre
+          toute la colonne «&nbsp;cibles&nbsp;».
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Matériau</th>
+                <th scope="col">Cibles</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tb-sans_sds"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="sec-sans_bc">
+        <h2>Bons de commande sans document</h2>
+        <p class="doc-section-note">
+          Un bon couvre plusieurs cibles. Le numéro de bon n'étant pas indexé dans la
+          recherche, le lien pointe sur ses références.
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Bon de commande</th>
+                <th scope="col">Cibles</th>
+                <th scope="col">Références</th>
+              </tr>
+            </thead>
+            <tbody id="tb-sans_bc"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="sec-sans_coa">
+        <h2>Cibles sans certificat</h2>
+        <p class="doc-section-note">
+          La liste la plus longue&nbsp;: les certificats sont nommés par matériau et date plus
+          souvent que par référence, ce que le liage automatique ne sait pas exploiter.
+        </p>
+        <div class="table-wrap">
+        <table class="cat-table">
+            <thead>
+              <tr>
+                <th scope="col">Référence</th>
+                <th scope="col">Matériau</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tb-sans_coa"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <span>Inventaire Cibles</span>
+      </div>
+    </footer>
+
+    <script src="documents-app.js?v=2"></script>
+  </body>
+</html>

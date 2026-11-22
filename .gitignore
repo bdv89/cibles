@@ -1,0 +1,21 @@
+# Whitelist: only the server code and the cibles docs are published.
+/*
+!/.gitignore
+!/README.public.md
+!/CLAUDE.md
+!/docs/
+!/server_display/
+
+/docs/*
+!/docs/inventaire-cibles.md
+!/docs/politique-acces.md
+
+# inside server_display: see server_display/.gitignore
+/server_display/server.py
+/server_display/benchmark.py
+/server_display/metrics.py
+/server_display/README.md
+/server_display/CLAUDE.md
+/server_display/start_server.bat
+/server_display/scripts/link_sds_to_inventory.py
+/server_display/scripts/migrate_csv_to_sqlite.py
